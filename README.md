@@ -89,7 +89,7 @@ format：图片格式
 1. 查找路径匹配入口
 
 上文提到代码的处理过程，首先需要通过index.js 入手找到图片路径匹配部分代码，可以找到这部分的处理是通过ImageRequest类的setup方法统一处理了，代码片段如下：
-
+``
  sync setup(event) {
         try {
             this.requestType = this.parseRequestType(event);
@@ -101,12 +101,12 @@ format：图片格式
             this.edits = this.parseImageEdits(event, this.requestType);
             console.log('Parsed Image Edits: ' + JSON.stringify(this.edits));
             this.originalImage = await this.getOriginalImage(this.bucket, this.key);
-
+``
 2. 路径匹配代码片段，通过分析代码发现此部分代码在t his.parseRequestType 方法中实现
-
+``
 parseRequestType(event) {
         //自定义图片处理
-       * **const** matchMy **=** **new** **RegExp**(**/(\/?)(.*)(jpg|png|webp|tiff|jpeg)@!(.*)/**i**);*
+          const matchMy = new RegExp(/(\/?)(.*)(jpg|png|webp|tiff|jpeg)@!(.*)/i);
         // ----
         if (matchDefault.test(path)) {  // use sharp
             return 'Default';
@@ -114,21 +114,21 @@ parseRequestType(event) {
             return 'Custom';
         } else if (matchThumbor.test(path)) {  // use thumbor mappings
             return 'Thumbor';
-        *}** **else** **if** **(**matchMy**.**test**(**path**))** **{**  **//自定义图片处理*
-*            **return** **'matchMy'**;*
-*        **}* 
+        } else if (matchMy.test(path)) {  //自定义图片处理
+            return 'Ali';
+        } 
     }
-
+``
 3. 桶解析部分适配，根据上一步自定义的请求类型进行适配处理，parseImageBucket 方法代码如下
-
+``
   else if (requestType === "matchMy") {
             // Use the default image source bucket env var
             const sourceBuckets = this.getAllowedSourceBuckets();
             return sourceBuckets[0];
         } 
-
+``
 4. 图片名称解析自定义处理代码 parseImageKey片段如下，
-
+``
 //自定义图片处理
         if(requestType === "matchMy") {
             const path = event["path"];
@@ -137,9 +137,9 @@ parseRequestType(event) {
             }
             return path.substring(0, path.indexOf('@!'));
         }
-
+``
 5. 图片处理请求参数适配处理，代码片段如下：
-
+``
   parseImageEdits(event, requestType) {
         if (requestType === "Default") {
             const decoded = this.decodeRequest(event);
@@ -158,17 +158,9 @@ parseRequestType(event) {
             thumborMapping.processMatchMy(event);
             return thumborMapping.edits;
         } 
-
+``
 ThuborMapping,processMatchMy 代码片段，方案默认提供的参数是json格式的同时使用了Base64编码，为了适配访问路径通过该类实现参数的解析，并将参数转换为标准的参数格式。
-
-/**
-     * 自定义链接处理
-     *  https://xxx/bucketName/prefix/0u4411de7307d24546b4ede2c734a3c1bf.jpg@!w420-h560
-        https://xxx/bucketName/prefix/0u4411de7307d24546b4ede2c734a3c1bf.jpg@!w210-h280
-        https://xxx/bucketName/prefix/0u4411de7307d24546b4ede2c734a3c1bf.jpg@!banner_m
-        https://xxx/bucketName/prefix/0u4411de7307d24546b4ede2c734a3c1bf.jpg@!w200
-     * @param {Object} event 
-     */
+``
     processMatchMy(event) {
         // Setup
         this.path = event.path;
@@ -209,6 +201,7 @@ ThuborMapping,processMatchMy 代码片段，方案默认提供的参数是json�
 
         return this;
     }
+``
 
 # 总结
 
