@@ -47,7 +47,7 @@
 * SourceBuckets：访问图片的存储桶名称
 
 10. 点击上图中DemoUrl的地址，效果如下图
-![](https://github.com/VerRan/aws-image-handler/blob/master/imag5.png)
+![](https://github.com/VerRan/aws-image-handler/blob/master/image5.png)
 * Image Source：第一个参数是桶名称 需要包含在 堆栈建立中的参数 SourceBuckets中存在，并且名称必须保持一致
 * Image Source：第二个参数时要处理的图片，这个图片必须在上一步中桶中存在
 * Editor：width，需要裁剪图片的目标宽度，Height：目标高度，Resize Mode：cover，覆盖也就是直接裁剪；contain，包含也就是图片包含在目标尺寸图中；fill，将裁剪后的图片填充为目标尺寸；fill color ：填充颜色；Backgound color：填充的北京颜色
@@ -61,7 +61,7 @@
 如果客户是新开发的项目，遵循方案中的配置和URL访问方式是可以满足的，但是针对一些迁移项目如某云厂商提供的图片服务已经规定了访问路径和参数格式，这种场景下标准的解决方案将无法直接满足。后面章节将从 AWS ServerlessImage Handler 解决方案中的代码架构和实现原理，同时会已某云厂家的图片处理方式为示例介绍如何进行适配，已实现图片处理功能的平滑迁移
 
 # <span id="source">源代码解析</span>
-*1.处理过程*
+* 1.处理过程*
   ![](https://github.com/VerRan/aws-image-handler/blob/master/image6.png)
 * Index.html: DemoUI 的首页
 * script.js :DemoUI 用于处理请求参数，包括封装参数针对参数做Base64编码，请求apiGateway等
@@ -70,34 +70,33 @@
 * image-request.js：是访问请求处理类，包括Base64编码解析，处理类型，访问路径的解析，桶以及图片的解析，访问参数的解析等
 * image-handler.js: 是请求的具体处理类通过解析后的参数然后调用sharp.js 进行图片的具体处理
 * sharp.js: 一款高性能的图片处理库
-*2.请求参数编码*
+* 2.请求参数编码*
    前端代码，Script.js实现请求参数的编码以及后端Apigateway的调用
    const encRequest = btoa(strRequest);//请求编码为Base64 编码
-*3.请求参数处理，如路径匹配*
+* 3.请求参数处理，如路径匹配*
 *   image-requests.js 实现请求路径的解析
 *   lambda 环境变量配置： RewriteMatchPattern 可以配置该参数，来适配当前的请求路径（REWRITE_MATCH_PATTERN）
 *   ImageHandler.js 调用sharp.js对图片进行具体处理
 
-*4.个性化定制方法*
+* 4.个性化定制方法*
 * 配置RewriteMatchPattern 参数，将现有路径匹配出来，已适配已有的图片处理访问路径
 * 如果通过RewriteMatchPattern参数无法满足需求时，可以通过修改源代码匹配当前环境
+
 # <span id="adapter">如何适配您的已有应用</span>
-* 适配路径举例
-下面是某云上的图片处理路径格式，下面我们已此为例介绍如何进行定制代码已适配您当前应用。
-访问路径格式：http://<endpoint>/object@action.format
-endpoint：访问的url端点
-object：图片文件
-action：图片处理操作
-format：图片格式
-
-访问路径举例：https://www.example.com/xxx/xx/123/abc.jpg@!w420-h560
-此路径表示将abc.jpg文件裁剪为宽420*高560的图片然后返回
+## 适配路径
+下面是aLI云上的图片处理路径格式，下面我们已此为例介绍如何进行定制代码已适配您当前应用。
+* 访问路径格式：http://<endpoint>/object@action.format
+* endpoint：访问的url端点
+* object：图片文件
+* action：图片处理操作
+* format：图片格式
+## 访问路径举例：
+  https://www.example.com/xxx/xx/123/abc.jpg@!w420-h560 此路径表示将abc.jpg文件裁剪为宽420*高560的图片然后返回
+  
 ## 需求分析：
-
 由于访问路径与AWS解决方案默认提供的方式不一致，同时通过RewriteMatchPattern配置无法满足，考虑通过定制代码实现。
 ，下面将已如上路径为例进行代码说明，同时我已提交了此部分代码适配了其它格式后面在代码中介绍。
 ## 代码修改：
-
 * 查找路径匹配入口
   上文提到代码的处理过程，首先需要通过index.js 入手找到图片路径匹配部分代码，可以找到这部分的处理是通过ImageRequest类的setup方法统一处理了，代码片段如下：
 ```sync setup(event) {
@@ -216,7 +215,7 @@ format：图片格式
 
 # 参考
 
-*解决方案地址：*
+* 解决方案地址：
 https://aws.amazon.com/solutions/serverless-image-handler/
-*源代码地址：*
+* 源代码地址：
 https://github.com/awslabs/serverless-image-handler
