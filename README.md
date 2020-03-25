@@ -51,7 +51,7 @@
 图片处理过程源代码介绍
 
 源代码地址 (https://github.com/awslabs/serverless-image-handler)
-*1.处理过程
+* 1.处理过程
    Index.html→script.js→apigatewat→lambda(index.js)→image-handler.js&image-request.js->sharp.js
 
 * Index.html: DemoUI 的首页
@@ -61,16 +61,16 @@
 * image-request.js：是访问请求处理类，包括Base64编码解析，处理类型，访问路径的解析，桶以及图片的解析，访问参数的解析等
 * image-handler.js: 是请求的具体处理类通过解析后的参数然后调用sharp.js 进行图片的具体处理
 
-*2.请求参数编码*
+* 2.请求参数编码*
    前端代码，Script.js实现请求参数的编码以及后端Apigateway的调用
    const encRequest = btoa(strRequest);//请求编码为Base64 编码
-*3.请求参数处理，如路径匹配*
+* 3.请求参数处理，如路径匹配*
 
 *   image-requests.js 实现请求路径的解析
 *   lambda 环境变量配置： RewriteMatchPattern 可以配置该参数，来适配当前的请求路径（REWRITE_MATCH_PATTERN）
 * ImageHandler.js 通过sharp 对图片进行具体处理
 
-*4.个性化定制方法*
+* 4.个性化定制方法*
 
 * 配置RewriteMatchPattern 参数，将现有路径匹配出来，已适配已有的图片处理访问路径
 * 如果通过RewriteMatchPattern参数无法满足需求时，可以通过修改源代码匹配当前环境
