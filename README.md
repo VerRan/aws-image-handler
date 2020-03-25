@@ -204,6 +204,3 @@ format：图片格式
 https://aws.amazon.com/solutions/serverless-image-handler/
 *源代码地址：*
 https://github.com/awslabs/serverless-image-handler
-
-
-
