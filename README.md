@@ -5,13 +5,13 @@
 最近有不少客户问到如何在AWS上实现在线图片处理（如裁剪，锐化，压缩）？以及如何在不修改原有代码基础上构建高可用，弹性的图片处理服务呢？
 通过本文的介绍，您可以得到如下收益：
 
-* 可以快速掌握如何搭建基于AWS的图片处理环境，同时针对方案中涉及的参数以及使用方法进行了介绍。[查看【部署方法&参数详解】章节](#deply)
+* 可以快速掌握如何搭建基于AWS的图片处理环境，快速掌握相关组件和参数。[查看【部署方法&参数详解】章节](#deply)
 * 可以快速了解图片处理方案的源代码结构以及基本原理。[查看【源代码解析】章节](#source)
-* 可以通过自定义Lambda的方式快速适配当前已有的图片处理方案，当前仓库的代码已支持Ali云的图片服务格式。[查看【如何适配已有应用】章节](#adpter)
+* 可以通过自定义Lambda的方式快速适配当前已有的图片处理方案，零代码改造集成AWS图片处理方案（当前仓库的代码已支持Ali云的图片服务格式）。[查看【如何适配已有应用】章节](#adpter)
 
 # 背景
 
-针对在线图片的裁剪需求非常的广泛，如您的应用包括App，Web，Pad等因为客户端的不同在现实图片信息的时候页需要相应的适配，从而针对同一个图片源需要支持在线裁剪来适配不同的客户端，此外可能还涉及包括压缩，锐化，或者图片的智能识别。 当前AWS Serverless Image Handler 解决方案,无法直接适配已有项目。本文将从AWS Serverless Image Handler 解决方案部署以及使用，代码分析，自定义代码等方面介绍AWS的图片处理解决方案。
+针对在线图片的裁剪需求非常的广泛，如您的应用包括App，Web，Pad等因为客户端的不同在现实图片信息的时候页需要相应的适配，从而针对同一个图片源需要支持在线裁剪来适配不同的客户端，此外可能还涉及包括压缩，锐化，或者图片的智能识别， 下面首先介绍一下AWS Serverless Image Handler 解决方案。
 
 # AWS Serverless Image Handler 解决方案介绍
 ![](https://github.com/VerRan/aws-image-handler/blob/master/architecture.png)
@@ -218,4 +218,3 @@ format：图片格式
 https://aws.amazon.com/solutions/serverless-image-handler/
 *源代码地址：*
 https://github.com/awslabs/serverless-image-handler
-
