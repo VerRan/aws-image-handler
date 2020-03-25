@@ -50,7 +50,8 @@
 * Encoded URL：将请求参数进行了Base64编码后的请求链接
 图片处理过程源代码介绍
 
-源代码地址 (https://github.com/awslabs/serverless-image-handler)
+# 代码处理过程介绍
+ ![原代码地址](https://github.com/awslabs/serverless-image-handler![](
 * 1.处理过程
    Index.html→script.js→apigatewat→lambda(index.js)→image-handler.js&image-request.js->sharp.js
 
