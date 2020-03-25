@@ -22,11 +22,15 @@
 1. 点击cloudformation模版 (https://s3.amazonaws.com/solutions-reference/serverless-image-handler/latest/serverless-image-handler.template)自动下载模版文件
 2. 登录AWS console ，选择Cloudformation
 3. 在Cloudformation界面选择创建堆栈（with new Resource(stanard)），将上面的链接复制到 Amazon
+![](https://github.com/VerRan/aws-image-handler/blob/master/image1.png)
 4. 选择下一步，输入堆栈名称如“image-process-solution”，注意 Image Sources 参数需要设置您访问图片桶的名称，同时可以设置多个桶的名称，用逗号分隔（如桶名称为lht-ServerlessImageHandler），后续如果有变更可以通过lambda 环境变量修改。
+![](https://github.com/VerRan/aws-image-handler/blob/master/image2.png)
 5. 选择下一步，可以设置标签信息用于标记模版信息（可选）
 6. 选择下一步，选择上本页最下方的复选框（允许cloudformation创建IAM资源并使用自定义名称），选择创建堆栈
 7. 点击左侧菜单中的堆栈菜单，进入Cloudformation 堆栈页面，当堆栈的状态变更为“CREATE COMPLETE” 
+![](https://github.com/VerRan/aws-image-handler/blob/master/image3.png)
 8. 点击上图中的堆栈名称列（lht-ServerlessImageHandler）进入详情页面，选择“输出”tab页
+![](https://github.com/VerRan/aws-image-handler/blob/master/image4.png)
 9. 输出tab页面下的信息介绍如下：
 
 * APIEndpoint: 用于处理图片的api接口，后面集成了lambda，DemoUI，Cloudfront就是通过调用该endpoint来实现图片处理功能的
@@ -36,6 +40,7 @@
 * SourceBuckets：访问图片的存储桶名称
 
 10. 点击上图中DemoUrl的地址，效果如下图
+![](https://github.com/VerRan/aws-image-handler/blob/master/image10.png)
 * Image Source：第一个参数是桶名称 需要包含在 堆栈建立中的参数 SourceBuckets中存在，并且名称必须保持一致
 * Image Source：第二个参数时要处理的图片，这个图片必须在上一步中桶中存在
 * Editor：width，需要裁剪图片的目标宽度，Height：目标高度，Resize Mode：cover，覆盖也就是直接裁剪；contain，包含也就是图片包含在目标尺寸图中；fill，将裁剪后的图片填充为目标尺寸；fill color ：填充颜色；Backgound color：填充的北京颜色
