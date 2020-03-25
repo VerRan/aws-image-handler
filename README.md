@@ -5,9 +5,9 @@
 最近有不少客户问到如何在AWS上实现在线图片处理（如裁剪，锐化，压缩）？以及如何在不修改原有代码基础上构建高可用，弹性的图片处理服务呢？
 通过本文的介绍，您可以得到如下收益：
 
-* 可以快速掌握如何搭建基于AWS的图片处理环境，快速掌握相关组件和参数。[查看【部署方法&参数详解】章节](#deply)
+* 可以快速掌握如何搭建基于AWS的图片处理环境，快速掌握相关组件和参数。[查看【部署方法&参数详解】章节](#deploy)
 * 可以快速了解图片处理方案的源代码结构以及基本原理。[查看【源代码解析】章节](#source)
-* 可以通过自定义Lambda的方式快速适配当前已有的图片处理方案，零代码改造集成AWS图片处理方案（当前仓库的代码已支持Ali云的图片服务格式）。[查看【如何适配已有应用】章节](#adpter)
+* 可以通过自定义Lambda的方式快速适配当前已有的图片处理方案，零代码改造集成AWS图片处理方案（当前仓库的代码已支持Ali云的图片服务格式）。[查看【如何适配已有应用】章节](#adapter)
 
 # 背景
 
@@ -104,7 +104,7 @@ format：图片格式
 
 * 查找路径匹配入口
   上文提到代码的处理过程，首先需要通过index.js 入手找到图片路径匹配部分代码，可以找到这部分的处理是通过ImageRequest类的setup方法统一处理了，代码片段如下：
-``sync setup(event) {
+```sync setup(event) {
         try {
             this.requestType = this.parseRequestType(event);
             console.log('Parsed Request Type: ' + this.requestType);
@@ -114,9 +114,10 @@ format：图片格式
             console.log('Parsed Image Key: ' + this.key);
             this.edits = this.parseImageEdits(event, this.requestType);
             console.log('Parsed Image Edits: ' + JSON.stringify(this.edits));
-            this.originalImage = await this.getOriginalImage(this.bucket, this.key);``
+            this.originalImage = await this.getOriginalImage(this.bucket, this.key);
+```
 * 路径匹配代码片段，通过分析代码发现此部分代码在this.parseRequestType 方法中实现
-``parseRequestType(event) {
+```parseRequestType(event) {
         //自定义图片处理
           const matchAli = new RegExp(/(\/?)(.*)(jpg|png|webp|tiff|jpeg)@!(.*)/i);
         // ----
@@ -129,26 +130,29 @@ format：图片格式
         } else if (matchAli.test(path)) {  //自定义图片处理
             return 'Ali';
         } 
-    }``
-    我们增加自定义图片处理部分代码已增加Ali 适配类型，matchAli 定义了图片访问路径的正则表达式
+    }
+```
+   我们增加自定义图片处理部分代码已增加Ali 适配类型，matchAli 定义了图片访问路径的正则表达式
 * 桶解析部分适配，根据上一步自定义的请求类型进行适配处理，parseImageBucket 方法代码如下
-``else if (requestType === "matchAli") {
+```else if (requestType === "matchAli") {
             // Use the default image source bucket env var
             const sourceBuckets = this.getAllowedSourceBuckets();
             return sourceBuckets[0];
-        } ``
+        } 
+ ```
 * 图片名称解析自定义处理代码 parseImageKey片段如下，
-``//自定义图片处理
+```//自定义图片处理
         if(requestType === "matchAli") {
             const path = event["path"];
             if(path.startsWith('/')) {
                 return path.substring(1, path.indexOf('@!'));
             }
             return path.substring(0, path.indexOf('@!'));
-        }``
-    需要根据您自己的访问路径进行适配，当前代码支持的是abc.jpg@!w420-h560路径
+        }
+```
+  需要根据您自己的访问路径进行适配，当前代码支持的是abc.jpg@!w420-h560路径
 * 图片处理请求参数适配处理，代码片段如下：
-``parseImageEdits(event, requestType) {
+```parseImageEdits(event, requestType) {
         if (requestType === "Default") {
             const decoded = this.decodeRequest(event);
             return decoded.edits;
@@ -165,10 +169,11 @@ format：图片格式
             const thumborMapping = new ThumborMapping();
             thumborMapping.processMatchMy(event);
             return thumborMapping.edits;
-        } ``
-       自定义ThumborMapping类已实现自定义处理逻辑
+        }
+```
+  自定义ThumborMapping类已实现自定义处理逻辑
 * ThuborMapping,processMatchAli代码片段，方案默认提供的参数是json格式的同时使用了Base64编码，为了适配访问路径通过该类实现参数的解析，并将参数转换为标准的参数格式。
-``processMatchAli(event) {
+```processMatchAli(event) {
         // Setup
         this.path = event.path;
         const ruleName = this.path.split('@!')[1];
@@ -205,7 +210,8 @@ format：图片格式
             this.edits.resize.fit = 'inside';
         }
         return this;
-    }``
+    }
+```
 通过儒商代码匹配您当前不同的图片处理规则，这里只需要将当前的规则，同时参数设置到edits参数中即可。当前代码会自动根据参数去通过sharp进行处理。
 
 # 新版本部署
