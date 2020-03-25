@@ -51,7 +51,7 @@
 图片处理过程源代码介绍
 
 # 代码处理过程介绍
- 原有码地址![](https://github.com/awslabs/serverless-image-handler)
+ ![原有码地址](https://github.com/awslabs/serverless-image-handler)
 * 1.处理过程
    Index.html→script.js→apigatewat→lambda(index.js)→image-handler.js&image-request.js->sharp.js
 
