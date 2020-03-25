@@ -27,7 +27,7 @@
 
 # <span id="deploy">部署方法&参数详解</span>
 
-1. 点击cloudformation模版 (https://s3.amazonaws.com/solutions-reference/serverless-image-handler/latest/serverless-image-handler.template)自动下载模版文件
+1. 点击[cloudformation模版](https://s3.amazonaws.com/solutions-reference/serverless-image-handler/latest/serverless-image-handler.template)
 2. 登录AWS console ，选择Cloudformation
 3. 在Cloudformation界面选择创建堆栈（with new Resource(stanard)），将上面的链接复制到 Amazon
 4. 选择下一步，输入堆栈名称如“image-process-solution”，注意 Image Sources 参数需要设置您访问图片桶的名称，同时可以设置多个桶的名称，用逗号分隔（如桶名称为lht-ServerlessImageHandler），后续如果有变更可以通过lambda 环境变量修改。
@@ -58,8 +58,7 @@
 
 
 # <span id="source">源代码解析</span>
-![](https://github.com/VerRan/aws-image-handler/blob/master/imag6.png)
-源代码地址 (https://github.com/awslabs/serverless-image-handler)
+![](https://github.com/VerRan/aws-image-handler/blob/master/image6.png)
 *1.处理过程*
    Index.html→script.js→apigatewat→lambda(index.js)→image-handler.js&image-request.js->sharp.js
 
