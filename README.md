@@ -61,7 +61,7 @@
 如果客户是新开发的项目，遵循方案中的配置和URL访问方式是可以满足的，但是针对一些迁移项目如某云厂商提供的图片服务已经规定了访问路径和参数格式，这种场景下标准的解决方案将无法直接满足。后面章节将从 AWS ServerlessImage Handler 解决方案中的代码架构和实现原理，同时会已某云厂家的图片处理方式为示例介绍如何进行适配，已实现图片处理功能的平滑迁移
 
 # <span id="source">源代码解析</span>
-* 1.处理过程*
+## 处理过程
   ![](https://github.com/VerRan/aws-image-handler/blob/master/image6.png)
 * Index.html: DemoUI 的首页
 * script.js :DemoUI 用于处理请求参数，包括封装参数针对参数做Base64编码，请求apiGateway等
@@ -70,15 +70,15 @@
 * image-request.js：是访问请求处理类，包括Base64编码解析，处理类型，访问路径的解析，桶以及图片的解析，访问参数的解析等
 * image-handler.js: 是请求的具体处理类通过解析后的参数然后调用sharp.js 进行图片的具体处理
 * sharp.js: 一款高性能的图片处理库
-* 2.请求参数编码*
+## 请求参数编码
    前端代码，Script.js实现请求参数的编码以及后端Apigateway的调用
    const encRequest = btoa(strRequest);//请求编码为Base64 编码
-* 3.请求参数处理，如路径匹配*
+## 请求参数处理，如路径匹配
 *   image-requests.js 实现请求路径的解析
 *   lambda 环境变量配置： RewriteMatchPattern 可以配置该参数，来适配当前的请求路径（REWRITE_MATCH_PATTERN）
 *   ImageHandler.js 调用sharp.js对图片进行具体处理
 
-* 4.个性化定制方法*
+## 个性化定制方法
 * 配置RewriteMatchPattern 参数，将现有路径匹配出来，已适配已有的图片处理访问路径
 * 如果通过RewriteMatchPattern参数无法满足需求时，可以通过修改源代码匹配当前环境
 
