@@ -40,7 +40,7 @@
 * SourceBuckets：访问图片的存储桶名称
 
 10. 点击上图中DemoUrl的地址，效果如下图
-![](https://github.com/VerRan/aws-image-handler/blob/master/image10.png)
+![](https://github.com/VerRan/aws-image-handler/blob/master/image5.png)
 * Image Source：第一个参数是桶名称 需要包含在 堆栈建立中的参数 SourceBuckets中存在，并且名称必须保持一致
 * Image Source：第二个参数时要处理的图片，这个图片必须在上一步中桶中存在
 * Editor：width，需要裁剪图片的目标宽度，Height：目标高度，Resize Mode：cover，覆盖也就是直接裁剪；contain，包含也就是图片包含在目标尺寸图中；fill，将裁剪后的图片填充为目标尺寸；fill color ：填充颜色；Backgound color：填充的北京颜色
