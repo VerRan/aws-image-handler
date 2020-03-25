@@ -51,7 +51,7 @@
 图片处理过程源代码介绍
 
 源代码地址 (https://github.com/awslabs/serverless-image-handler)
-*1.处理过程*
+*1.处理过程
    Index.html→script.js→apigatewat→lambda(index.js)→image-handler.js&image-request.js->sharp.js
 
 * Index.html: DemoUI 的首页
