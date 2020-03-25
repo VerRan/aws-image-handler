@@ -80,7 +80,7 @@
 
 *比如您当前的请求路径如下：*
 
-通过三级域名访问：http:// (http://channel/)*<endpoint>/object@action.format*
+通过三级域名访问：http:// xxx.<endpoint>/object@action.format*
 endpoint：访问的url端点
 object：图片文件
 action：图片处理操作
