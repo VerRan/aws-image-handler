@@ -218,13 +218,19 @@
 
 # 新版本部署
 * 方法1
-修改完代码后，通过部署章节已经部署好的环境，在console中选择lambda 服务，找到类似xx-ServerlessImageHandler-ImageHandlerFunction的函数，然后将打包好的代码部署就可以生效了。
+1. 修改代码后，代码打包针对node.js 使用 npm install ,然后 zip 整个目录为xx.zip 文件（也可以使用方法2中的打包脚本进行打包）
+2. 通过部署章节已经部署好的环境，在console中选择lambda 服务，找到类似xx-ServerlessImageHandler-ImageHandlerFunction的函数，然后将打包好的代码上传到lambda
+3. lambda console 保存就可以验证了。
+4. 日志查看，通过lambda 监控页面转到 cloudwatch log查看日志
 
 * 方法2
 1. git clone https://github.com/awslabs/serverless-image-handler.git 克隆方案原始代码
 2. 根据上文中描述的方法，已适配当前逻辑默认已提供支持阿里图片处理服务的路径，可以直接覆盖clone后的代码
 3. 参考 https://github.com/awslabs/serverless-image-handler/blob/master/README.md 的方法进行代码打包和部署
 
+* java版本
+针对java版本代码可以使用SAM进行本地测试和打包部署
+具体参考：https://github.com/VerRan/image-serverless-java 
 
 # 参考
 
