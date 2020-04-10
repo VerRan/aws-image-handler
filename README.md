@@ -14,6 +14,16 @@
 
 针对在线图片的裁剪需求非常的广泛，如您的应用包括App，Web，Pad等因为客户端的不同在现实图片信息的时候页需要相应的适配，从而针对同一个图片源需要支持在线裁剪来适配不同的客户端，此外可能还涉及包括压缩，锐化，或者图片的智能识别， 下面首先介绍一下AWS Serverless Image Handler 解决方案。
 
+# AWS Serverless-image-handler方案存在的不足
+
+如果客户是新开发的项目，遵循方案中的配置和URL访问方式是可以满足的，但是针对一些迁移项目如某云厂商提供的图片服务已经规定了访问路径和参数格式，这种场景下标准的解决方案将无法直接满足。后面章节将从 AWS ServerlessImage Handler 解决方案中的代码架构和实现原理，同时会已某云厂家的图片处理方式为示例介绍如何进行适配，已实现图片处理功能的平滑迁移
+
+
+# Serverless-image-handler方案与Lambda Edge方案的选择
+* 如果当前您已经使用了cloudfront或者计划同时使用clodfront，那么可以直接采用将lambda与Cloudfront结合来实现图片的裁剪。
+* 如果当前您使用的是其他CDN，那么可以考虑使用Serverless-image-handler方案，与现有CDN集成只需要将Apigateway的域名配置与CDN域名关联。
+* 如果您希望将图片处理能力作为api服务提供给不同的应用使用时，那么可以选择那么可以考虑使用Serverless-image-handler方案。
+
 # AWS Serverless Image Handler 解决方案介绍
 ![](https://github.com/VerRan/aws-image-handler/blob/master/architecture.png)
 1. 客户通过客户端访问cloudfront endpoint，如果请求的内容在cloudfront cache中不存在的话，则将客户请求转发给Apigateway，如果存在的话则直接返回给客户端。
@@ -56,10 +66,6 @@
 * Preview ： 展示裁剪后的效果图
 * Request Body：前端UI发送给ApiGateway的参数
 * Encoded URL：将请求参数进行了Base64编码后的请求链接
-
-# Serverless-image-handler方案存在的不足
-
-如果客户是新开发的项目，遵循方案中的配置和URL访问方式是可以满足的，但是针对一些迁移项目如某云厂商提供的图片服务已经规定了访问路径和参数格式，这种场景下标准的解决方案将无法直接满足。后面章节将从 AWS ServerlessImage Handler 解决方案中的代码架构和实现原理，同时会已某云厂家的图片处理方式为示例介绍如何进行适配，已实现图片处理功能的平滑迁移
 
 # <span id="source">源代码解析</span>
 ## 处理过程
