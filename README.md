@@ -22,7 +22,7 @@
 # Serverless-image-handler方案与Lambda Edge方案的选择
 * 如果当前您已经使用了cloudfront或者计划同时使用clodfront，那么可以直接采用将lambda与Cloudfront结合来实现图片的裁剪。
 * 如果当前您使用的是其他CDN，那么可以考虑使用Serverless-image-handler方案，与现有CDN集成只需要将Apigateway的域名配置与CDN域名关联。
-* 如果您希望将图片处理能力作为api服务提供给不同的应用使用时，那么可以选择那么可以考虑使用Serverless-image-handler方案。
+* 如果您希望将图片处理能力作为api服务提供给不同的应用使用时，那么可以考虑使用Serverless-image-handler方案。
 
 # AWS Serverless Image Handler 解决方案介绍
 ![](https://github.com/VerRan/aws-image-handler/blob/master/architecture.png)
